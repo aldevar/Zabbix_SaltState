@@ -78,19 +78,6 @@ manage_zabbix_conf:
     - name: /etc/zabbix/zabbix_agentd.conf
     - source: salt://prod/zabbix/files/linux/zabbix/zabbix_agentd.conf
 
-manage_zabbix_userparam:
-  file:
-    - managed
-    - name: /etc/zabbix/zabbix_agentd.d/diskstats.conf
-    - source: salt://prod/zabbix/files/linux/zabbix/diskstats.conf
-
-manage_zabbix_querydisks_script:
-  file:
-    - managed
-    - name: /etc/zabbix/scripts/queryDisks.pl
-    - source: salt://prod/zabbix/files/linux/zabbix/queryDisks.pl
-    - mode: 755
-    - makedirs: True
 
 zabbix-agent:
   service.running:
@@ -132,7 +119,7 @@ install_zabbix_agent:
 
 firewall_zabbix_agent:
   cmd.run:
-    - name: 'netsh advfirewall firewall add rule name="TCP_10050_Zabbix_Agent" dir=in action=allow protocol=TCP localport=10050 remoteip=172.31.113.40'
+    - name: 'netsh advfirewall firewall add rule name="TCP_10050_Zabbix_Agent" dir=in action=allow protocol=TCP localport=10050 remoteip=YOUR_ZABBIX_SERVER_IP'
     - unless: 'netsh advfirewall firewall show rule name="TCP_10050_Zabbix_Agent"'
 
 stop_zabbix_agent:
